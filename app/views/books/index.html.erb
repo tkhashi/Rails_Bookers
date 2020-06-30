@@ -1,34 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Bookers</title>
+</head>
+<body>
 
-
+</body>
+</html>
   <body>
-    <header>
-      <h1 class="Books">Books
-        <table>
-          <th>Title</th>
-          <th>Body</th>
-          <th colspan"3"></th>
-          <% @book.each do |b| %>
-          <tr>
-            <td><%= b.title %></td>
-            <td><%= b.body %>	</td>
-            <td></td>
-            <td><%= link_to "show", book_path(b.id) %></td>
-            <td><%= link_to "edit", edit_book_path(b.id) %></td>
-            <td><%= link_to "delete", book_path(b.id), method: :delete %></td>
-          </tr>
-          <% end %>
-        </table>
-      </h1>
-    </header>
-    <h2>New book</h2>
-    <%= form_for(@booknew) do |f| %>
-
-      <h4>Title</h4>
-      <%= f.text_field :title %>
-      <h4>Body</h4>
-      <%= f.text_area :body %>
-      <%= f.submit "Create Book" %>
-
+    <% if flash[:notice] %>
+      <p class="flash">
+        <%= flash[:notice] %>
+      </p>
     <% end %>
+      <h1 class="Books">Books</h1>
+        <table>
+          <thead>
+            <th>Title</th>
+            <th>Body</th>
+            <div "contents row">
+            <th colspan"3"></th>
+          </thead>
+          <tbody>
+            <% @book.each do |b| %>
+            <tr>
+              <td><%= b.title %></td>
+              <td><%= b.body %>	</td>
+              <td></td>
+              <td><%= link_to "Show", book_path(b.id) %></td>
+              <td><%= link_to "Edit", edit_book_path(b.id) %></td>
+              <td><%= link_to "Destroy", book_path(b.id), method: :delete %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+
+    <h2>New book</h2>
+
+      <% if @booknew.errors.any? %>
+        <div class="error_explanation">
+          <h2><%= @booknew.errors.count %>errors prohibited this book from being saved:</h2>
+            <ul>
+            <% @booknew.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+        </div>
+      <% end %>
+      <%= form_for(@booknew) do |f| %>
+      <div class="field">
+        <%= f.label :title, "Title" %>
+        <%= f.text_field :title %>
+      </div>
+      <div class="field">
+        <%= f.label :body, "Body" %>
+        <%= f.text_area :body %>
+      </div>
+      <div class="action">
+        <%= f.submit "Create Book" %>
+      </div>
+
+      <% end %>
 
   </body>
